@@ -5,16 +5,12 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 
 function App() {
-  const [username, setUsername] = useState<string | null>(null); // Shared state for username
-
-  const handleLogout = (): void => {
-    setUsername(null); // Clear username
-  };
+  const [, setUsername] = useState<string | null>(null); // Username is set in Login; Home no longer uses it.
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home username={username} handleLogout={handleLogout} />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login setUsername={setUsername} />} />
         <Route path="/register" element={<Register />} />
       </Routes>

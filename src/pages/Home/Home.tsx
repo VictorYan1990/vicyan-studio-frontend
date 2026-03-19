@@ -1,57 +1,23 @@
 import React from 'react';
-import { Layout, Menu, Dropdown } from 'antd';
+import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import './Home.css';
 
 const { Header } = Layout;
 
-interface HomeProps {
-  username: string | null;
-  handleLogout: () => void;
-}
-
-const Home: React.FC<HomeProps> = ({ username, handleLogout }) => {
-  // Dropdown menu for user options
-  const menu = (
-    <Menu>
-      <Menu.Item key="logout">
-        <button type="button" onClick={handleLogout}>
-          Logout
-        </button>
-      </Menu.Item>
-    </Menu>
-  );
-
+const Home: React.FC = () => {
   return (
     <Layout>
       <Header className="navbar">
         <Menu mode="horizontal" theme="dark" className="menu">
           {/* Left-aligned item */}
           <Menu.Item key="logo" className="nav-left">
-            <Link to="/">Vic Studio</Link>
+            <Link to="/">VicYan Studio</Link>
           </Menu.Item>
 
           {/* Spacer (empty space between items) */}
           <Menu.Item key="spacer" disabled style={{ flex: 1, pointerEvents: 'none' }}>
             {/* Spacer is not clickable */}
-          </Menu.Item>
-
-          {/* Right-aligned items */}
-          {!username && (
-            <Menu.Item key="register" className="nav-right">
-              <Link to="/register">Register</Link>
-            </Menu.Item>
-          )}
-          <Menu.Item key="user" className="nav-right">
-            {username ? (
-              <Dropdown overlay={menu} trigger={['click']}>
-                <button type="button" className="username">
-                  {username} ▼
-                </button>
-              </Dropdown>
-            ) : (
-              <Link to="/login">Login</Link>
-            )}
           </Menu.Item>
         </Menu>
       </Header>

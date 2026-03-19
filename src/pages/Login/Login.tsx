@@ -27,15 +27,11 @@ const Login: React.FC<LoginProps> = ({ setUsername }) => {
 
   // Check for an existing token on component mount
   useEffect(() => {
-    console.log('useEffect triggered');
     const checkToken = async () => {
       const token = getAuthToken();
-      console.log('Token found:', token);
       if (token) {
         try {
-          console.log('Verifying token...');
           const response = await fetchWithAuth('/auth/verify');   //Use await to sync the fetch call within fetchWithAuth
-          console.log('Verification response:', response);
           if (response && response.username) {
             setUsername(response.username);
             notification.success({
