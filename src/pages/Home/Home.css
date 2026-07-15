@@ -1,11 +1,10 @@
 .menu {
-  display: flex; /* Use flexbox to control alignment */
+  display: flex;
+  align-items: center;
 }
 
-.nav-left {
-  margin-right: auto; /* Push all remaining items to the right */
-}
-
-.nav-right {
-  margin-left: auto; /* Align this item to the rightmost side */
+.site-logo {
+  height: 40px;
+  width: auto;
+  display: block;
 }
