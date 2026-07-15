@@ -1,28 +1,15 @@
 import React from 'react';
-import { Layout, Menu } from 'antd';
-import { Link } from 'react-router-dom';
-import './Home.css';
+import { Typography } from 'antd';
 
-const { Header } = Layout;
+const { Title, Paragraph } = Typography;
 
 const Home: React.FC = () => {
   return (
-    <Layout>
-      <Header className="navbar">
-        <Menu mode="horizontal" theme="dark" className="menu">
-          {/* Left-aligned item */}
-          <Menu.Item key="logo" className="nav-left">
-            <Link to="/">VicYan Studio</Link>
-          </Menu.Item>
-
-          {/* Spacer (empty space between items) */}
-          <Menu.Item key="spacer" disabled style={{ flex: 1, pointerEvents: 'none' }}>
-            {/* Spacer is not clickable */}
-          </Menu.Item>
-        </Menu>
-      </Header>
-    </Layout>
+    <div style={{ padding: '32px 24px', maxWidth: 720, margin: '0 auto' }}>
+      <Title level={2}>Welcome</Title>
+      <Paragraph>VicYan Studio — personal site.</Paragraph>
+    </div>
   );
 };
 
-export default Home; 
+export default Home;
