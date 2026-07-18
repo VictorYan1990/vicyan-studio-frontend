@@ -9,17 +9,12 @@ const MainLayout: React.FC = () => {
   return (
     <Layout>
       <Header className="navbar">
-        <Menu mode="horizontal" theme="dark" className="menu">
-          <Menu.Item key="logo" className="nav-left">
-            <Link to="/">
-              <img
-                src={`${process.env.PUBLIC_URL}/web_logo.png`}
-                alt="VicYan Studio"
-                className="site-logo"
-              />
-            </Link>
-          </Menu.Item>
-
+        <img
+          src={`${process.env.PUBLIC_URL}/web_logo.png`}
+          alt="VicYan Studio"
+          className="site-logo"
+        />
+        <Menu mode="horizontal" theme="dark" className="menu" disabledOverflow>
           <Menu.Item key="site-name" className="nav-left">
             <Link to="/">VicYan Studio</Link>
           </Menu.Item>

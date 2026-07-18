@@ -23,9 +23,9 @@ describe('App', () => {
   it('shows the site navigation', () => {
     render(<App />);
 
-    // Two links share the accessible name "VicYan Studio": the logo image
-    // (via its alt text) and the site-name text link.
-    expect(screen.getAllByRole('link', { name: /vicyan studio/i })).toHaveLength(2);
+    // The logo is a plain image (not a link); the site name is the home link.
+    expect(screen.getByRole('img', { name: 'VicYan Studio' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'VicYan Studio' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'ABOUT' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'EXPERIENCE' })).toBeInTheDocument();
   });
