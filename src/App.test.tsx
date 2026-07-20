@@ -9,32 +9,48 @@ describe('App', () => {
     window.history.pushState({}, '', '/');
   });
 
-  it('renders the home page by default', () => {
+  it('renders the home page hero by default', () => {
     render(<App />);
 
     expect(
-      screen.getByRole('heading', { name: 'Welcome' })
+      screen.getByRole('heading', { name: 'Victor Yan' })
     ).toBeInTheDocument();
     expect(
-      screen.getByText('VicYan Studio — personal site.')
+      screen.getByText('I build data platforms for finance.')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'See experience →' })
     ).toBeInTheDocument();
   });
 
   it('shows the site navigation', () => {
     render(<App />);
 
-    // The logo is a plain image (not a link); the site name is the home link.
+    // The logo is a plain image (not a link); the wordmark is the home link.
     expect(screen.getByRole('img', { name: 'VicYan Studio' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'VicYan Studio' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'ABOUT' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'EXPERIENCE' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'About' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Experience' })).toBeInTheDocument();
+  });
+
+  it('shows social links with the right destinations in the footer', () => {
+    render(<App />);
+
+    expect(screen.getByRole('link', { name: 'GitHub' })).toHaveAttribute(
+      'href',
+      'https://github.com/VictorYan1990'
+    );
+    expect(screen.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute(
+      'href',
+      'https://www.linkedin.com/in/yajun-yan/'
+    );
   });
 
   it('navigates to the About page via the nav link', async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByRole('link', { name: 'ABOUT' }));
+    await user.click(screen.getByRole('link', { name: 'About' }));
 
     expect(window.location.pathname).toBe('/about');
     // Jest stubs .md imports with their filename, so the rendered markdown
@@ -47,9 +63,14 @@ describe('App', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByRole('link', { name: 'EXPERIENCE' }));
+    await user.click(screen.getByRole('link', { name: 'Experience' }));
 
     expect(window.location.pathname).toBe('/experience');
-    expect(screen.getByText('Experience.md')).toBeInTheDocument();
+    expect(
+      screen.getByText(/BlackRock Inc., Aladdin Wealth Technology/)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Senior Engineer II / Tech Lead (Vice President)')
+    ).toBeInTheDocument();
   });
 });

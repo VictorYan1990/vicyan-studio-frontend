@@ -1,39 +1,44 @@
 import React from 'react';
-import { Layout, Menu } from 'antd';
-import { Link, Outlet } from 'react-router-dom';
-import '../pages/Home/Home.css';
+import { Link, NavLink, Outlet } from 'react-router-dom';
+import SocialLinks from '../components/SocialLinks';
+import './MainLayout.css';
 
-const { Header, Content } = Layout;
+const navClass = ({ isActive }: { isActive: boolean }) =>
+  isActive ? 'nav-link nav-link-active' : 'nav-link';
 
 const MainLayout: React.FC = () => {
   return (
-    <Layout>
-      <Header className="navbar">
-        <img
-          src={`${process.env.PUBLIC_URL}/web_logo.png`}
-          alt="VicYan Studio"
-          className="site-logo"
-        />
-        <Menu mode="horizontal" theme="dark" className="menu" disabledOverflow>
-          <Menu.Item key="site-name" className="nav-left">
-            <Link to="/">VicYan Studio</Link>
-          </Menu.Item>
+    <div className="site">
+      <header className="site-header">
+        <div className="site-header-inner">
+          <img
+            src={`${process.env.PUBLIC_URL}/web_logo.png`}
+            alt="VicYan Studio"
+            className="site-logo"
+          />
+          <Link to="/" className="site-wordmark">
+            VicYan Studio
+          </Link>
+          <nav className="site-nav" aria-label="Primary">
+            <NavLink to="/about" className={navClass}>
+              About
+            </NavLink>
+            <NavLink to="/experience" className={navClass}>
+              Experience
+            </NavLink>
+          </nav>
+        </div>
+      </header>
 
-          <Menu.Item key="spacer" disabled style={{ flex: 1, pointerEvents: 'none' }} />
-
-          <Menu.Item key="about" className="nav-right">
-            <Link to="/about">ABOUT</Link>
-          </Menu.Item>
-
-          <Menu.Item key="experience" className="nav-right">
-            <Link to="/experience">EXPERIENCE</Link>
-          </Menu.Item>
-        </Menu>
-      </Header>
-      <Content>
+      <main className="site-main">
         <Outlet />
-      </Content>
-    </Layout>
+      </main>
+
+      <footer className="site-footer">
+        <p className="site-footer-note">© 2026 Victor Yan</p>
+        <SocialLinks />
+      </footer>
+    </div>
   );
 };
 

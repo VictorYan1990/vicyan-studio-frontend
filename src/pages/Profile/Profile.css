@@ -1,28 +1,35 @@
 .profile-page {
   max-width: 720px;
   margin: 0 auto;
-  padding: 32px 24px 48px;
+  padding: 56px 24px 64px;
 }
 
 .profile-page h1 {
-  margin-top: 0;
-  margin-bottom: 16px;
-  font-size: 1.75rem;
+  margin: 0 0 24px;
+  font-size: 2rem;
+  letter-spacing: -0.01em;
 }
 
 .profile-page h2 {
-  margin-top: 28px;
-  margin-bottom: 12px;
-  font-size: 1.25rem;
+  margin: 32px 0 12px;
+  font-size: 1.3rem;
 }
 
 .profile-page p {
-  margin: 0 0 12px;
-  line-height: 1.65;
+  margin: 0 0 16px;
+  line-height: 1.75;
+  color: var(--muted);
+  font-size: 1.02rem;
 }
 
 .profile-page .profile-markdown ul {
-  margin: 0 0 12px;
+  margin: 0 0 16px;
   padding-left: 1.25rem;
-  line-height: 1.65;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+.profile-page strong {
+  color: var(--text);
+  font-weight: 600;
 }

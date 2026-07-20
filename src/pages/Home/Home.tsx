@@ -1,14 +1,28 @@
 import React from 'react';
-import { Typography } from 'antd';
-
-const { Title, Paragraph } = Typography;
+import { Link } from 'react-router-dom';
+import './Home.css';
 
 const Home: React.FC = () => {
   return (
-    <div style={{ padding: '32px 24px', maxWidth: 720, margin: '0 auto' }}>
-      <Title level={2}>Welcome</Title>
-      <Paragraph>VicYan Studio — personal site.</Paragraph>
-    </div>
+    <section className="hero">
+      <h1 className="hero-name">Victor Yan</h1>
+      <p className="hero-role">
+        I build data platforms for finance.
+      </p>
+      <p className="hero-body">
+        Ten years of backend and data-platform engineering across wealth and
+        risk management — currently a tech lead on BlackRock&rsquo;s Aladdin
+        Wealth platform, after an earlier life as a quant.
+      </p>
+      <div className="hero-links">
+        <Link to="/experience" className="hero-link">
+          See experience →
+        </Link>
+        <Link to="/about" className="hero-link hero-link-muted">
+          More about me
+        </Link>
+      </div>
+    </section>
   );
 };
 
