@@ -41,6 +41,7 @@ Reusable personas live in [`.agents/personas/`](.agents/personas/). See
 | `.agents/skills/` | canonical | reusable Agent Skills |
 | `CLAUDE.md` | derived | imports `AGENTS.md` |
 | `.claude/skills` | symlink | `.agents/skills` |
+| `.claude/agents` | symlink | `.agents/personas` |
 | `.cursor/skills` | symlink | `.agents/skills` |
 | `.cursor/agents` | symlink | `.agents/personas` |
 
