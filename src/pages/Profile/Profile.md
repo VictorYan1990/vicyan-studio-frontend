@@ -1,9 +1,11 @@
 # About
 
-Software engineer who has been working in financial industry for 10 years, with a focus on backend and data platform. 
+I'm a software engineer with ten years in the financial industry, focused on backend systems and data platforms.
 
-I started my career as a quant, at which I develop quantitative models and code the application. I thougth it would be cool to fit great models catching market patterns, and then build algo trading system upon the models to earn profits. Later I realize it is not something can be done by one person, and more importantly,
-complex systems don't really perform that well as people wish. Instead, I gradually feel coding could one of the thing I really enjoy in daily work, despite of making a living. That aspiration eventually bring me to the path of 100% software engineering. 
+I began my career as a risk quant, developing econometric models and turning them into analytics tools. Back then I was inspired by the mathematicians who shaped modern trading, James Simons chief among them, and I loved the idea of fitting elegant models to market patterns and building algorithmic trading systems on top of them to turn a profit. That dream proved a little naive once I saw how often quant funds have to retune their sophisticated models, and sometimes step in and override the trades by hand. As Simons put it: "When you smell smoke, you get the hell out."
 
+The dream may have broken, but along the way I discovered that coding is genuinely fun, not just a way to make a living. And as an introverted logistician at heart, it turned out I was rather good at it. That realization set me on the path to software engineering full time.
 
-I primarily use Python, and of course SQL. Beyond that, I know a bit of JavaScript and React, can build some basic web frontends. My current work can be desribed as building a platform for people, primarily financial advisors, to get access to models or analytics tools offered by BlackRock.
+These days I work mostly in Python and, of course, SQL. Beyond that I'm comfortable with JavaScript and TypeScript, along with a bit of React, enough to build clean, functional web frontends. I currently work in a multi-tenant SaaS-like environment, where we build and operate a platform that lets people, mainly financial advisors, run our firm's analytics tools against their own portfolios. My team owns the integration layer that ties the client-specific data interfaces to the workflows and services beneath them.
+
+That's more or less me: happiest when I'm quietly untangling a hard problem, and always glad to pick up something new along the way.

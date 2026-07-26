@@ -40,7 +40,7 @@ const positions: Position[] = [
     range: '2021 — 2022',
     roles: [
       {
-        title: 'Quantitative & Analytics Platform Engineer, AMGQS',
+        title: 'Assistant Vice President, Alternative Modeling & Quantitative Services, AMGQS',
         period: 'Feb 2021 – Oct 2022',
         summary:
           'Built high-performance Python and Spark-based analytics systems supporting CCAR and CECL workflows over a $500B+ mortgage portfolio, and delivered a web-based analytics interface for interactive model validation, diagnostics, and scenario exploration.',
@@ -53,7 +53,7 @@ const positions: Position[] = [
     range: '2016 — 2021',
     roles: [
       {
-        title: 'Credit Modeler, Quantitative Engineering & Risk Platform',
+        title: 'Credit Modeler, Quantitative Analytics & Risk Platform',
         period: 'Feb 2016 – Feb 2021',
         summary:
           'Developed a firm-wide risk analytics and forecasting engine supporting underwriting, pricing, and capital planning for a $200B+ mortgage insurance portfolio, productionizing quantitative credit models into distributed AWS workflows.',
@@ -70,7 +70,7 @@ const education = [
   },
   {
     school: 'Central South University, Changsha, China',
-    degree: 'B.S. in Economics and Mathematics',
+    degree: 'B.S. in Economics',
     date: 'Jun 2013',
   },
 ];
