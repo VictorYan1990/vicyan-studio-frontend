@@ -16,7 +16,9 @@ describe('App', () => {
       screen.getByRole('heading', { name: 'Victor Yan' })
     ).toBeInTheDocument();
     expect(
-      screen.getByText('I build data platforms for finance.')
+      screen.getByText(
+        'I build technical solutions with AI-driven engineering excellence.'
+      )
     ).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: 'See experience →' })
