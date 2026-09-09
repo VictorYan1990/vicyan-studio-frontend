@@ -7,11 +7,10 @@ const Home: React.FC = () => {
     <section className="hero">
       <h1 className="hero-name">Victor Yan</h1>
       <p className="hero-role">
-        I build data platforms for finance.
+        I build technical solutions with AI-driven engineering excellence.
       </p>
       <p className="hero-body">
-        Ten years of backend and data-platform engineering across wealth and
-        risk management — currently a tech lead on BlackRock&rsquo;s Aladdin
+        Ten years of backend and data infrastructure engineering across product and platform — currently a tech lead on BlackRock&rsquo;s Aladdin
         Wealth platform, after an earlier life as a quant.
       </p>
       <div className="hero-links">
