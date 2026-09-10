@@ -25,8 +25,9 @@ yarn-error.log*
 # prompt
 prompt.md
 
-# AI assistants — commit AGENTS.md, CLAUDE.md, .agents/, and the .cursor/.claude
-# symlinks that point at .agents/. Ignore only personal/secret files:
+# AI assistants — commit AGENTS.md, CLAUDE.md, .agents/, and the .claude/.cursor
+# symlinks into it (Claude Code skips skill dirs it detects as gitignored).
+# Ignore only personal/secret files:
 .claude/settings.local.json
 *.local.json
 .cursor/mcp.json

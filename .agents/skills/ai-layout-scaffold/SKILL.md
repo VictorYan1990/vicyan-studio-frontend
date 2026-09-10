@@ -2,28 +2,37 @@
 name: ai-layout-scaffold
 description: >-
   Scaffold a vendor-neutral AI agent config layout in a repository: a canonical
-  .agents/ source of truth (AGENTS.md, personas, skills) that Cursor and Claude
-  reference via imports and symlinks. Use when the user asks to set up, create,
-  bootstrap, or standardize AI agent config / rules / skills / personas layout,
-  or wants a "source of truth + import" structure for AI tooling.
+  .agents/ source of truth (AGENTS.md, personas, skills), relative symlinks
+  wiring it into .claude/ and .cursor/ so both tools discover skills at session
+  start, and CLAUDE.md importing AGENTS.md. Use when the user asks to set up,
+  create, bootstrap, or standardize AI agent config / rules / skills / personas
+  layout, or wants a "source of truth + link" structure for AI tooling.
 ---
 
 # AI Layout Scaffold
 
 Create a **single source of truth** for AI agent config under `.agents/`, then
-wire tool-specific paths (`.cursor/`, `.claude/`) to it via imports and
-symlinks so every tool auto-discovers the same content at its required fixed
-path. You edit one place; every agent stays in sync.
+wire it into the tool-specific directories with relative symlinks. You edit one
+place; every agent stays in sync.
 
 ## Core principle
 
 - **Canonical (edit here):** `AGENTS.md`, `.agents/personas/`, `.agents/skills/`.
-- **Derived (never edit directly):** `CLAUDE.md` (imports `AGENTS.md`),
-  `.cursor/skills`, `.claude/skills`, `.cursor/agents` (symlinks into `.agents/`).
+- **Derived (never edit directly):** `CLAUDE.md` (imports `AGENTS.md`), and the
+  `.claude/*` / `.cursor/*` symlinks.
+- **Links are required, not decorative.** Claude Code's skill scanner is
+  hardcoded to `.claude/skills` and has no setting for extra roots, so prose in
+  `AGENTS.md` cannot make it find `.agents/skills/`. Cursor *does* scan
+  `.agents/skills/` directly, so its links are technically redundant — wire them
+  anyway for symmetry, and so the layout does not depend on one vendor's
+  current behavior.
+
+See [`ai-config-discovery`](../ai-config-discovery/SKILL.md) for the two-layer
+loading model and the evidence behind these claims.
 
 ## Idempotency rule (important)
 
-This skill is **non-destructive**. For every file or symlink below:
+This skill is **non-destructive**. For every file or directory below:
 
 1. If it does **not** exist → create it.
 2. If it **already** exists → **skip it** and record it in a "skipped
@@ -31,7 +40,7 @@ This skill is **non-destructive**. For every file or symlink below:
 
 After processing everything, if anything was skipped:
 
-- Present the list of existing files/symlinks that were left untouched.
+- Present the list of existing files that were left untouched.
 - **Ask the user** whether to update/overwrite any of them, and wait for
   confirmation before changing existing content. Do not overwrite silently.
 
@@ -48,10 +57,12 @@ Run all path checks relative to the repository root.
 ```
 
 - If `.agents/skills/README.md` is missing, create it explaining that this dir
-  is canonical and that `.cursor/skills` / `.claude/skills` symlink to it.
+  is canonical and that the tool-specific dirs are symlinks into it.
 - Add at least one example persona in `.agents/personas/` only if the directory
-  is empty (e.g. a project-appropriate engineer persona with `name` +
-  `description` frontmatter). If personas already exist, leave them.
+  is empty. If personas already exist, leave them.
+- Personas double as tool-native subagents through the `agents` links, so give
+  each one subagent-compatible frontmatter: kebab-case `name`, a `description`
+  that says *when to use it*, and an optional `tools` list.
 
 ### 2. Create `AGENTS.md` (instructions source of truth)
 
@@ -59,7 +70,10 @@ If `AGENTS.md` does not exist at the repo root, create it with, at minimum:
 - a one-line note that it is the canonical, vendor-neutral source of truth;
 - a project overview and key conventions (infer from the repo; keep concise);
 - a "Personas" section pointing at `.agents/personas/`;
-- an "Agent config layout" section documenting the import/symlink wiring below.
+- an "Agent config layout" section documenting the link model below;
+- a short **session-start Layer 1 self-check** block (see step 6). This must
+  live in `AGENTS.md`, not in a skill description — if discovery is broken, no
+  skill metadata loaded, so only an always-applied rule can catch it.
 
 If it already exists, skip and report it.
 
@@ -78,25 +92,44 @@ This project keeps its agent guidance in the vendor-neutral `AGENTS.md`:
 Do not duplicate guidance here — edit `AGENTS.md` instead.
 ```
 
-### 4. Wire tool-specific paths via symlinks
+### 4. Wire the tool-specific links
 
-Create these **relative** symlinks (skip any that already exist):
+Create four **relative** symlinks:
 
 ```
-.cursor/skills   -> ../.agents/skills
-.cursor/agents   -> ../.agents/personas
-.claude/skills   -> ../.agents/skills
+.claude/skills  -> ../.agents/skills
+.claude/agents  -> ../.agents/personas
+.cursor/skills  -> ../.agents/skills
+.cursor/agents  -> ../.agents/personas
 ```
-
-Create parent dirs (`.cursor/`, `.claude/`) if missing. Use relative targets so
-the repo stays portable. Suggested commands:
 
 ```bash
-mkdir -p .cursor .claude
-[ -e .cursor/skills ] || ln -s ../.agents/skills   .cursor/skills
-[ -e .cursor/agents ] || ln -s ../.agents/personas .cursor/agents
-[ -e .claude/skills ] || ln -s ../.agents/skills   .claude/skills
+ln -s ../.agents/skills   .claude/skills
+ln -s ../.agents/personas .claude/agents
+ln -s ../.agents/skills   .cursor/skills
+ln -s ../.agents/personas .cursor/agents
+git config core.symlinks true
 ```
+
+**Never use a junction (`mklink /J`).** It stores an *absolute* target, so git
+commits a machine-specific path instead of `../.agents/skills`, breaking every
+other clone. Symlinks are relative and portable.
+
+**On Windows, enable Developer Mode first.** Without it, `ln -s` from WSL on
+`/mnt/c` silently creates a WSL-only reparse point that Windows-native tools
+cannot traverse (`The file cannot be accessed by the system`) — the classic
+"broken junction" symptom. Elevated PowerShell, once per machine:
+
+```powershell
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock' `
+  -Name AllowDevelopmentWithoutDevLicense -Value 1
+```
+
+Also set `core.symlinks=true` **before** checkout — with `false`, git writes
+each link as a plain text file containing the target path.
+
+If a target platform cannot support symlinks at all, fall back to a real copy
+plus a sync step — never a junction. Flag the trade-off to the user.
 
 ### 5. Update `.gitignore`
 
@@ -104,31 +137,42 @@ Ensure the shared config **is committed** and only personal/secret files are
 ignored. Add these entries if absent (do not remove unrelated existing rules):
 
 ```gitignore
-# AI assistants — commit AGENTS.md, CLAUDE.md, .agents/, and the .cursor/.claude
-# symlinks that point at .agents/. Ignore only personal/secret files:
+# AI assistants — commit AGENTS.md, CLAUDE.md, .agents/, and the tool links.
+# Ignore only personal/secret files:
 .claude/settings.local.json
 *.local.json
 .cursor/mcp.json           # may hold secrets; template it if you commit one
 .ai/                       # scratch prompts / working notes
 ```
 
-If a broad rule like `.claude` or `.cursor` already ignores the whole tool dir,
-flag it: it would exclude the symlinks. Ask the user before narrowing it.
+The link paths must **not** be ignored — Claude Code skips skill directories it
+detects as gitignored.
 
-### 6. Verify and report
+### 6. Add the session-start self-check to `AGENTS.md`
 
-- Confirm symlinks resolve (`ls -la .cursor .claude`).
-- Confirm git tracks the shared files and ignores the personal ones
-  (`git check-ignore -v <path>` where useful).
-- Summarize: what was created, what was skipped (already existed), and any
-  open questions for the user (esp. from steps 2 and 5).
+A short always-applied block telling agents to verify, **once at the start of a
+session and not again**, that the project skills appear in their available-skills
+list, and to report a single line either way. This turns a silent Layer 1
+failure into a visible one.
+
+### 7. Verify and report
+
+- `ls -la .claude .cursor` — confirm each entry is a symlink (`l` mode bit) with
+  a relative target, not a plain file and not a junction.
+- Confirm read-through on every platform in use. On Windows:
+  `powershell.exe -NoProfile -Command "Get-ChildItem '<abs>\.claude\skills'"`
+- `git check-ignore -v .claude/skills` must find nothing.
+- `git ls-files -s .claude .cursor` — each link should show mode `120000`.
+- Start a fresh agent session and confirm the skills appear in its
+  available-skills list. **This is the only real proof**; a link that exists but
+  is not scanned still fails.
+- Summarize: what was created, what was skipped, and any open questions.
 
 ## Caveats to surface to the user
 
-- **Windows:** symlinks work on Linux/macOS/WSL. On native Windows, cloning may
-  need `git config core.symlinks true` + Developer Mode, or the symlinks
-  materialize as plain files. Offer real per-tool copies + a sync step as a
-  fallback if the team is on native Windows.
 - **Format drift:** a tool may expect specific frontmatter for its custom
-  agents/skills. The symlink wiring is standard; adjust frontmatter per tool if
-  it rejects the shared files.
+  agents/skills. Adjust per tool if it rejects a shared file — most commonly a
+  persona lacking a `tools` field or using a non-kebab-case `name`.
+- **Vendor behavior changes:** the scanned paths are implementation details of
+  each tool. Re-verify with the self-check after a major tool upgrade rather
+  than trusting this document.

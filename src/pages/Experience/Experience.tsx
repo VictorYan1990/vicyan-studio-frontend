@@ -24,7 +24,7 @@ const positions: Position[] = [
         title: 'Senior Engineer II / Tech Lead (Vice President)',
         period: 'Jan 2025 – Present',
         summary:
-          'Tech lead for the Client Delivery Experience (CDX) team, driving backend service and platform infrastructure for BlackRock’s multi-tenant wealth-management business.',
+          'Tech lead for the Client Delivery Experience (CDX) team, driving backend service and platform infrastructure for BlackRock\'s multi-tenant wealth-management business.',
       },
       {
         title: 'Senior Engineer I (Vice President)',
@@ -43,7 +43,7 @@ const positions: Position[] = [
         title: 'Assistant Vice President, Alternative Modeling & Quantitative Services, AMGQS',
         period: 'Feb 2021 – Oct 2022',
         summary:
-          'Built high-performance Python and Spark-based analytics systems supporting CCAR and CECL workflows over a $500B+ mortgage portfolio, and delivered a web-based analytics interface for interactive model validation, diagnostics, and scenario exploration.',
+          'Developed high-performance Python and Spark-based analytics applications supporting CCAR and CECL use cases of the bank\'s $500B+ residential mortgage portfolio. Built data infrastructure for whole life cycle management of risk modeling.',
       },
     ],
   },
@@ -53,10 +53,10 @@ const positions: Position[] = [
     range: '2016 — 2021',
     roles: [
       {
-        title: 'Credit Modeler, Quantitative Analytics & Risk Platform',
+        title: 'Credit Modeler, Quantitative Analytics & Risk Modeling',
         period: 'Feb 2016 – Feb 2021',
         summary:
-          'Developed a firm-wide risk analytics and forecasting engine supporting underwriting, pricing, and capital planning for a $200B+ mortgage insurance portfolio, productionizing quantitative credit models into distributed AWS workflows.',
+          'Developed a firm-wide risk analytics and forecasting engine supporting portfolio management, pricing, and capital planning for the firm\'s $200B+ mortgage insurance portfolio, productionizing quantitative credit models into cashflow engines.',
       },
     ],
   },

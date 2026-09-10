@@ -32,17 +32,36 @@ Reusable personas live in [`.agents/personas/`](.agents/personas/). See
 
 ## Agent config layout
 
-`.agents/` is the single source of truth. Tool-specific paths are wired to it:
+`.agents/` is the single source of truth. Tool-specific directories are
+**relative symlinks** into it — edit only the canonical files:
 
-| Path | Type | Points at |
+| Path | Type | Role |
 | --- | --- | --- |
-| `AGENTS.md` | canonical | (this file) |
-| `.agents/personas/` | canonical | reusable personas |
+| `AGENTS.md` | canonical | this file; auto-loaded as an always-applied rule |
+| `.agents/personas/` | canonical | reusable personas / subagents |
 | `.agents/skills/` | canonical | reusable Agent Skills |
-| `CLAUDE.md` | derived | imports `AGENTS.md` |
-| `.claude/skills` | symlink | `.agents/skills` |
-| `.claude/agents` | symlink | `.agents/personas` |
-| `.cursor/skills` | symlink | `.agents/skills` |
-| `.cursor/agents` | symlink | `.agents/personas` |
+| `CLAUDE.md` | derived | thin file that imports `AGENTS.md` |
+| `.claude/skills`, `.cursor/skills` | derived | symlink → `../.agents/skills` |
+| `.claude/agents`, `.cursor/agents` | derived | symlink → `../.agents/personas` |
 
-Edit the canonical files; never edit through the derived paths.
+The links are **required**: Claude Code's skill scanner is hardcoded to
+`.claude/skills` and has no setting for extra roots, so this file's guidance
+cannot redirect it. Cursor also scans `.agents/skills/` directly, making its
+links redundant — they are kept for symmetry.
+
+Use symlinks, never junctions (a junction stores an absolute, machine-specific
+path). On Windows this needs Developer Mode plus `core.symlinks=true`. See the
+`ai-config-discovery` skill for the full model, evidence, and repair steps.
+
+## Session start: Layer 1 skill check
+
+On your **first substantive reply of a session only** — never repeat it on later
+turns — check whether the skills in `.agents/skills/` appear in the
+available-skills list you were given at startup, and report one line:
+
+- All present → `Layer 1 skill discovery: OK (N project skills).`
+- Any missing → name them and flag the likely broken `.claude/skills` or
+  `.cursor/skills` link.
+
+Then continue with the user's request. Only diagnose further if asked; the
+`ai-config-discovery` skill has the procedure.

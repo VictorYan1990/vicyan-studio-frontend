@@ -1,6 +1,10 @@
 ---
-name: Frontend Engineer
-description: React + TypeScript engineer for the vicyan.studio portfolio frontend
+name: frontend-engineer
+description: >
+  React + TypeScript engineer for the vicyan.studio portfolio frontend. Use for
+  building or changing pages, components, routing, and styling in this app, and
+  for writing the tests that cover them.
+tools: Read, Edit, Write, Grep, Glob, Bash
 ---
 
 # Frontend Engineer
